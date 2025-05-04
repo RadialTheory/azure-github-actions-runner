@@ -3,6 +3,9 @@ FROM ghcr.io/actions/actions-runner:2.304.0
 
 USER root
 
+# Suppress debconf warning
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install dependencies + Azure CLI manually (no apt-key)
 RUN apt-get update && \
     apt-get install -y curl ca-certificates lsb-release gnupg jq apt-transport-https && \
