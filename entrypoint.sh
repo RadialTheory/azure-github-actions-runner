@@ -6,8 +6,9 @@ set -e
 dockerd > /tmp/docker.log 2>&1 &
 
 echo "Waiting for Docker daemon to be ready..."
-if ! timeout 60 bash -c 'until docker info > /dev/null 2>&1; do sleep 1; done'; then
-  echo "Docker daemon did not become ready in time. Exiting."
+if ! timeout 15 bash -c 'until docker info > /dev/null 2>&1; do sleep 1; done'; then
+  echo "Docker daemon did not become ready in time. Showing log:"
+  tail -n 20 /tmp/docker.log
   exit 1
 fi
 
