@@ -5,8 +5,11 @@ set -e
 # Start Docker daemon in background
 dockerd > /tmp/docker.log 2>&1 &
 
-# Wait for Docker to become responsive
-timeout 15 bash -c 'until docker info > /dev/null 2>&1; do sleep 1; done'
+echo "Waiting for Docker daemon to be ready..."
+if ! timeout 60 bash -c 'until docker info > /dev/null 2>&1; do sleep 1; done'; then
+  echo "Docker daemon did not become ready in time. Exiting."
+  exit 1
+fi
 
 # Retrieve a short lived runner registration token using the PAT
 REGISTRATION_TOKEN="$(curl -X POST -fsSL \
