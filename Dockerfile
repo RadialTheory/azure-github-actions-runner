@@ -26,9 +26,5 @@ RUN apt-get update && \
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
-# Add runner ot the docker group
-RUN usermod -aG docker runner
-
-USER runner
-
+# We will run as root in order to start the docker daemon
 ENTRYPOINT ["./entrypoint.sh"]
