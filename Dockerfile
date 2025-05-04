@@ -17,8 +17,17 @@ RUN apt-get update && \
     rm microsoft.gpg && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install Docker
+RUN apt-get update && \
+    apt-get install -y docker.io && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
+
+# Add runner ot the docker group
+RUN usermod -aG docker runner
 
 USER runner
 
