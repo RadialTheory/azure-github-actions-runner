@@ -2,15 +2,20 @@
 
 set -e
 
-# Start Docker daemon in background
-dockerd > /tmp/docker.log 2>&1 &
+#if [ "$(id -u)" -ne 0 ]; then
+#  echo "This script must be run as root. Current UID: $(id -u)"
+#  exit 1
+#fi
 
-echo "Waiting for Docker daemon to be ready..."
-if ! timeout 15 bash -c 'until docker info > /dev/null 2>&1; do sleep 1; done'; then
-  echo "Docker daemon did not become ready in time. Showing log:"
-  tail -n 20 /tmp/docker.log
-  exit 1
-fi
+# Start Docker daemon in background
+#dockerd > /tmp/docker.log 2>&1 &
+
+#echo "Waiting for Docker daemon to be ready..."
+#if ! timeout 15 bash -c 'until docker info > /dev/null 2>&1; do sleep 1; done'; then
+#  echo "Docker daemon did not become ready in time. Showing log:"
+#  tail -n 20 /tmp/docker.log
+#  exit 1
+#fi
 
 # Retrieve a short lived runner registration token using the PAT
 REGISTRATION_TOKEN="$(curl -X POST -fsSL \

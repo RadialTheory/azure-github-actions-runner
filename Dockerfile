@@ -26,5 +26,6 @@ RUN apt-get update && \
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
-# We will run as root in order to start the docker daemon
+USER runner
+
 ENTRYPOINT ["./entrypoint.sh"]
